@@ -1,0 +1,84 @@
+﻿<File version="3.1">
+  <Code><![CDATA[#Define a Param block to use custom parameters in the project
+#Param ($CustomParameter)
+[CmdletBinding()]
+Param (
+	[Parameter(Mandatory = $false)]
+	[ValidatePattern("[0-9]")]
+	[Alias('d')]
+	[int]$Dbg,
+	
+	[Alias('S')]
+	[switch]$Sound,
+	[Alias('R')]
+	[switch]$RadarSettings,
+	[Alias('L')]
+	[switch]$RLI,
+	[Alias('V')]
+	[switch]$Video,
+	
+	[string]$LIFETIME,
+	
+	[string]$Name = 'ALL',
+	
+	[string]$Config,
+	
+	[Switch]$Force
+)
+
+function Main {
+<#
+    .SYNOPSIS
+        The Main function starts the project application.
+    
+    .PARAMETER Commandline
+        $Commandline contains the complete argument string passed to the script packager executable.
+    
+    .NOTES
+        Use this function to initialize your script and to call GUI forms.
+		
+    .NOTES
+        To get the console output in the Packager (Forms Engine) use: 
+		$ConsoleOutput (Type: System.Collections.ArrayList)
+#>
+	Param ([String]$Commandline)
+		
+	#--------------------------------------------------------------------------
+	#TODO: Add initialization script here (Load modules and check requirements)
+	
+	
+	#--------------------------------------------------------------------------
+	if (!$Force)
+	{
+		if ((Show-MainForm_psf) -eq 'OK')
+		{
+			
+		}
+	}
+	else
+	{
+		for ($ix = 0; $ix -lt $jsonCFG.HASH_FULL.Count; $ix++)
+		{
+			$GLOBAL:HASH_CURRENT += @{
+				$jsonCFG.HASH_FULL[$ix].NAME = $jsonCFG.HASH_FULL[$ix].IP_ADDRESS
+			}
+		}
+		$var = 0
+		if ($Sound -eq $true)			{ $var += $FLAG_MASK_SOUND }
+		if ($RadarSettings -eq $true)	{ $var += $FLAG_MASK_RADAR }
+		if ($RLI -eq $true)				{ $var += $FLAG_MASK_RLI }
+		if ($Video -eq $true)			{ $var += $FLAG_MASK_VIDEO }
+		if ($var -eq 0)			{ $var = $jsonCFG.FLAG_CHECK}
+		if (!$LIFETIME)					{ $LIFETIME = $jsonCFG.LIFETIME }
+		R-Sync -FlagCheck $var `
+			   -DateFrom (Get-Date -Hour 0 -Minute 0 -Second 0).AddDays(-1 * $LIFETIME) `
+			   -DateTo (Get-Date -Hour 23 -Minute 59 -Second 59) `
+			   -Name $Name.ToUpper()
+	}
+	
+	$script:ExitCode = 0 #Set the exit code for the Packager
+}
+
+
+]]></Code>
+</File>

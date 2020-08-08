@@ -1,0 +1,29 @@
+{
+    "LANG":  "En",
+    "FLAG_CHECK":  1,
+    "PATH_REPLICATION":  "/cygdrive/C/Archive",
+    "DIR_SOUND":  "Sound",
+    "DIR_RADAR":  "Radar",
+    "DIR_RLI":  "RLI",
+    "DIR_VIDEO":  "Capture",
+    "FILE_IDX":  "channels.idx",
+    "FILE_SETT_VIDEO":  "settings.xml",
+    "FILE_TMP":  "replication.tmp",
+    "USERNAME":  "User",
+    "BASE_NAME":  "BRO",
+    "TIMEOUT_PING":  1,
+    "REMOVER_AT_START":  "False",
+    "FLAG_FROM_DATE":  "False",
+    "FLAG_TO_DATE":  "False",
+    "LIFETIME":  "10",
+    "HASH_FULL":  [
+                      {
+                          "NAME":  "BRI-1",
+                          "IP_ADDRESS":  "192.168.10.131"
+                      },
+                      {
+                          "NAME":  "BRI-2",
+                          "IP_ADDRESS":  "192.168.10.132"
+                      }
+                  ]
+}
